@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "sharing-ten-percent",
+    "title": "나눔 10%, 30년을 관통한 하나의 약속",
+    "excerpt": "이랜드가 창업 때부터 지켜온 '이익의 10%를 나눈다'는 원칙이 어떻게 경영의 방향을 만들어왔는지, 그리고 오늘날 CSR의 뿌리가 된 이야기를 나눕니다.",
+    "date": "2026-04-15",
+    "author": "정영일",
+    "categories": ["philosophy", "foundation"],
+    "tags": ["나눔10퍼센트", "창업정신", "경영원칙"],
+    "image": "",
+    "file": "2026-04-15-sharing-ten-percent.md"
+  },
+  {
+    "slug": "morning-manna-beginning",
+    "title": "아침애만나, 서울역 한 끼의 시작",
+    "excerpt": "무료급식소를 구상하던 2022년 겨울, 한 통의 전화에서 시작된 이야기. 그리고 그 한 끼가 '존엄'이라 불리게 된 이유.",
+    "date": "2026-04-10",
+    "author": "정영일",
+    "categories": ["behind", "welfare"],
+    "tags": ["아침애만나", "무료급식소", "서울역"],
+    "image": "",
+    "file": "2026-04-10-morning-manna-beginning.md"
+  },
+  {
+    "slug": "sos-wego-three-days",
+    "title": "SOS위고, 3일 안에 닿는다는 원칙",
+    "excerpt": "긴급 지원의 속도가 왜 중요한지, 한 위기가정과의 만남에서 배운 교훈을 기록합니다.",
+    "date": "2026-04-03",
+    "author": "정영일",
+    "categories": ["behind", "foundation"],
+    "tags": ["SOS위고", "위기가정", "긴급지원"],
+    "image": "",
+    "file": "2026-04-03-sos-wego-three-days.md"
+  }
+]

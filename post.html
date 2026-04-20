@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대표의 기록 | 이랜드CSR</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-brand">
+        <span class="en">Founder's Note</span>
+        <span class="sep"></span>
+        <span class="ko">대표의 기록</span>
+      </a>
+      <a href="https://www.elandcsr.or.kr/" class="back">← ELAND CSR</a>
+    </div>
+  </header>
+
+  <nav class="breadcrumb">
+    <a href="https://www.elandcsr.or.kr/">HOME</a>
+    <span class="sep">›</span>
+    <a href="https://www.elandcsr.or.kr/Community/EventList">커뮤니티</a>
+    <span class="sep">›</span>
+    <a href="index.html">대표의 기록</a>
+    <span class="sep">›</span>
+    <span class="current" id="crumb-title">글 제목</span>
+  </nav>
+
+  <article class="post-detail" id="post-detail">
+    <div class="loading">LOADING...</div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="mark"></div>
+    <p>재단법인 이랜드재단 · 사회복지법인 이랜드복지재단</p>
+    <p>서울시 금천구 가산디지털1로 142 · TEL 02-2644-0110</p>
+    <p class="links">
+      <a href="https://www.elandcsr.or.kr/">이랜드CSR</a>
+      <a href="https://www.elandcsr.or.kr/ElandCSR/Vision">재단소개</a>
+      <a href="https://www.elandcsr.or.kr/Community/NoticeList">공지사항</a>
+    </p>
+    <p class="copy">© ELAND GROUP. ALL RIGHTS RESERVED.</p>
+  </footer>
+
+  <script>
+    const CATEGORY_LABELS = {
+      philosophy: '경영 철학',
+      behind: '사업 비하인드',
+      foundation: '이랜드재단',
+      welfare: '이랜드복지재단',
+      global: '글로벌',
+      insight: '인사이트'
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+
+    async function loadPost() {
+      const detailEl = document.getElementById('post-detail');
+      if (!slug) { showNotFound(); return; }
+
+      try {
+        const metaRes = await fetch('posts/posts.json');
+        const allPosts = await metaRes.json();
+        const post = allPosts.find(p => p.slug === slug);
+        if (!post) { showNotFound(); return; }
+
+        const mdRes = await fetch(`posts/${post.file}`);
+        if (!mdRes.ok) throw new Error('본문 로드 실패');
+        const mdText = await mdRes.text();
+        renderPost(post, mdText, allPosts);
+      } catch (err) {
+        console.error(err);
+        detailEl.innerHTML = `
+          <div class="empty-state">
+            <div class="serif">글을 불러올 수 없습니다</div>
+            <p>잠시 후 다시 시도해주세요.</p>
+          </div>`;
+      }
+    }
+
+    function showNotFound() {
+      document.getElementById('post-detail').innerHTML = `
+        <div class="empty-state">
+          <div class="serif">글을 찾을 수 없습니다</div>
+          <p><a href="index.html" style="border-bottom:1px solid #aaa; padding-bottom: 1px;">목록으로 돌아가기</a></p>
+        </div>`;
+    }
+
+    function renderPost(post, mdText, allPosts) {
+      document.title = `${post.title} | 대표의 기록`;
+      document.getElementById('crumb-title').textContent = post.title;
+
+      const catBreadcrumb = (post.categories || [])
+        .map(c => CATEGORY_LABELS[c])
+        .filter(Boolean)
+        .join(' · ');
+
+      const tagsHtml = (post.tags || []).map(t =>
+        `<span class="tag">${escapeHtml(t)}</span>`
+      ).join('');
+
+      marked.setOptions({ breaks: true, gfm: true });
+      const bodyHtml = marked.parse(mdText);
+
+      const related = allPosts
+        .filter(p => p.slug !== post.slug)
+        .filter(p => {
+          if (!post.categories) return false;
+          return (p.categories || []).some(c => post.categories.includes(c));
+        })
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 2);
+
+      const relatedHtml = related.length > 0 ? `
+        <div class="related">
+          <h4>More Archives</h4>
+          <div class="related-grid">
+            ${related.map((p, i) => `
+              <a class="post-card" href="post.html?slug=${encodeURIComponent(p.slug)}">
+                <div class="img-wrap">
+                  <div class="idx-num">№ ${String(i+1).padStart(2,'0')}</div>
+                  ${p.image
+                    ? `<img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy" />`
+                    : `<div class="img-placeholder"></div>`
+                  }
+                </div>
+                <div class="lbl">${escapeHtml(CATEGORY_LABELS[(p.categories||[])[0]] || '')}</div>
+                <h3>${escapeHtml(p.title)}</h3>
+                <div class="footer">
+                  <span>${formatDate(p.date)}</span>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        </div>` : '';
+
+      document.getElementById('post-detail').innerHTML = `
+        <a class="back-top" href="index.html">All Archives</a>
+        <div class="post-category">${escapeHtml(catBreadcrumb)}</div>
+        <h1>${escapeHtml(post.title)}</h1>
+        <div class="post-meta">
+          <span class="author">${escapeHtml(post.author || '정영일')}</span>
+          · ${formatDate(post.date)}
+        </div>
+        ${post.image ? `
+          <div class="hero-img">
+            <img src="${post.image}" alt="${escapeHtml(post.title)}" />
+          </div>` : ''
+        }
+        <div class="post-body">${bodyHtml}</div>
+        <div class="post-footer">
+          ${tagsHtml ? `<div class="tags-line">${tagsHtml}</div>` : ''}
+        </div>
+        ${relatedHtml}
+      `;
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}.${m}.${day}`;
+    }
+
+    loadPost();
+  </script>
+</body>
+</html>

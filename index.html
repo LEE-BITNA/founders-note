@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대표의 기록 | 이랜드CSR</title>
+  <meta name="description" content="이랜드재단·이랜드복지재단 대표 정영일이 사업 현장에서 남기는 기록과 인사이트의 아카이브" />
+  <meta property="og:title" content="대표의 기록 | 이랜드CSR" />
+  <meta property="og:description" content="이랜드재단·이랜드복지재단 대표 정영일이 사업 현장에서 남기는 기록과 인사이트의 아카이브" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+  <!-- Site Header (블랙 바) -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-brand">
+        <span class="en">Founder's Note</span>
+        <span class="sep"></span>
+        <span class="ko">대표의 기록</span>
+      </a>
+      <a href="https://www.elandcsr.or.kr/" class="back">← ELAND CSR</a>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="https://www.elandcsr.or.kr/">HOME</a>
+    <span class="sep">›</span>
+    <a href="https://www.elandcsr.or.kr/Community/EventList">커뮤니티</a>
+    <span class="sep">›</span>
+    <span class="current">대표의 기록</span>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="eyebrow">No. 1 · Archive</div>
+    <h1>현장에서 남기는<br/>한 사람의 <em>기록</em>들</h1>
+    <p class="lede">
+      이랜드재단·이랜드복지재단 대표 정영일이<br/>
+      사업 현장에서 얻은 인사이트와 지난 발자취를 남기는 공간입니다.<br/>
+      경영 철학부터 사업 비하인드까지, 차곡차곡 쌓아갑니다.
+    </p>
+    <div class="author-line"><strong>정영일</strong> · 이랜드재단·이랜드복지재단 대표</div>
+  </section>
+
+  <!-- Controls -->
+  <section class="controls">
+    <div class="controls-inner">
+      <div class="controls-row">
+        <div class="controls-count">전체 <strong id="total-count">0</strong>편의 기록</div>
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="search" id="search-input" placeholder="제목·태그로 찾기..." />
+        </div>
+      </div>
+      <div class="filters" id="category-filter">
+        <button class="filter-btn active" data-cat="all">전체 <span class="count" id="cnt-all">0</span></button>
+        <button class="filter-btn" data-cat="philosophy">경영 철학 <span class="count" id="cnt-philosophy">0</span></button>
+        <button class="filter-btn" data-cat="behind">사업 비하인드 <span class="count" id="cnt-behind">0</span></button>
+        <button class="filter-btn" data-cat="foundation">이랜드재단 <span class="count" id="cnt-foundation">0</span></button>
+        <button class="filter-btn" data-cat="welfare">이랜드복지재단 <span class="count" id="cnt-welfare">0</span></button>
+        <button class="filter-btn" data-cat="global">글로벌 <span class="count" id="cnt-global">0</span></button>
+        <button class="filter-btn" data-cat="insight">인사이트 <span class="count" id="cnt-insight">0</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts -->
+  <section class="posts-section">
+    <div id="featured-container"></div>
+    <div class="section-label" id="section-label" style="display:none;">
+      <span class="num">02 —</span>
+      <span class="title">All Archives</span>
+      <span class="line"></span>
+    </div>
+    <div class="posts-grid" id="posts-grid"></div>
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <div class="serif">검색 결과가 없습니다</div>
+      <p>다른 키워드로 검색하거나 카테고리를 바꿔보세요.</p>
+    </div>
+    <div class="loading" id="loading">LOADING...</div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+      <button class="load-more" id="load-more">LOAD MORE</button>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="mark"></div>
+    <p>재단법인 이랜드재단 · 사회복지법인 이랜드복지재단</p>
+    <p>서울시 금천구 가산디지털1로 142 · TEL 02-2644-0110</p>
+    <p class="links">
+      <a href="https://www.elandcsr.or.kr/">이랜드CSR</a>
+      <a href="https://www.elandcsr.or.kr/ElandCSR/Vision">재단소개</a>
+      <a href="https://www.elandcsr.or.kr/Community/NoticeList">공지사항</a>
+    </p>
+    <p class="copy">© ELAND GROUP. ALL RIGHTS RESERVED.</p>
+  </footer>
+
+  <script>
+    const CATEGORY_LABELS = {
+      philosophy: '경영 철학',
+      behind: '사업 비하인드',
+      foundation: '이랜드재단',
+      welfare: '이랜드복지재단',
+      global: '글로벌',
+      insight: '인사이트'
+    };
+    const POSTS_PER_PAGE = 9;
+
+    let allPosts = [];
+    let filteredPosts = [];
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let displayedCount = 0;
+
+    async function init() {
+      try {
+        const res = await fetch('posts/posts.json');
+        if (!res.ok) throw new Error('posts.json 로드 실패');
+        const data = await res.json();
+        allPosts = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        document.getElementById('loading').style.display = 'none';
+        updateCounts();
+        applyFilters();
+      } catch (err) {
+        document.getElementById('loading').textContent = '글 목록을 불러올 수 없습니다.';
+        console.error(err);
+      }
+    }
+
+    function updateCounts() {
+      document.getElementById('total-count').textContent = allPosts.length;
+      document.getElementById('cnt-all').textContent = allPosts.length;
+      Object.keys(CATEGORY_LABELS).forEach(cat => {
+        const n = allPosts.filter(p => (p.categories || []).includes(cat)).length;
+        const el = document.getElementById('cnt-' + cat);
+        if (el) el.textContent = n;
+      });
+    }
+
+    function applyFilters() {
+      const q = currentSearch.trim().toLowerCase();
+      filteredPosts = allPosts.filter(post => {
+        const categoryMatch = currentCategory === 'all'
+          || (post.categories && post.categories.includes(currentCategory));
+        if (!categoryMatch) return false;
+        if (!q) return true;
+        const haystack = [
+          post.title || '',
+          post.excerpt || '',
+          (post.tags || []).join(' '),
+          (post.categories || []).map(c => CATEGORY_LABELS[c] || '').join(' ')
+        ].join(' ').toLowerCase();
+        return haystack.includes(q);
+      });
+      displayedCount = 0;
+      renderPosts(true);
+    }
+
+    function renderPosts(reset) {
+      const grid = document.getElementById('posts-grid');
+      const featuredContainer = document.getElementById('featured-container');
+      const sectionLabel = document.getElementById('section-label');
+      const emptyState = document.getElementById('empty-state');
+      const loadMoreWrap = document.getElementById('load-more-wrap');
+
+      if (reset) {
+        grid.innerHTML = '';
+        featuredContainer.innerHTML = '';
+        sectionLabel.style.display = 'none';
+      }
+
+      if (filteredPosts.length === 0) {
+        emptyState.style.display = 'block';
+        loadMoreWrap.style.display = 'none';
+        return;
+      } else {
+        emptyState.style.display = 'none';
+      }
+
+      const showFeatured = reset && currentCategory === 'all' && !currentSearch && filteredPosts.length > 0;
+      let startIdx = 0;
+
+      if (showFeatured) {
+        featuredContainer.innerHTML = renderFeatured(filteredPosts[0]);
+        if (filteredPosts.length > 1) {
+          sectionLabel.style.display = 'flex';
+        }
+        startIdx = 1;
+      }
+
+      const baseStart = startIdx + (reset ? 0 : displayedCount);
+      const endIdx = Math.min(startIdx + POSTS_PER_PAGE + displayedCount, filteredPosts.length);
+      const toRender = filteredPosts.slice(baseStart, endIdx);
+
+      toRender.forEach((post, i) => {
+        const idxNum = startIdx + displayedCount + i + 1;
+        grid.insertAdjacentHTML('beforeend', renderCard(post, idxNum + 1));
+      });
+
+      displayedCount = endIdx - startIdx;
+      loadMoreWrap.style.display = (endIdx < filteredPosts.length) ? 'block' : 'none';
+    }
+
+    function renderFeatured(post) {
+      const primaryCat = (post.categories && post.categories[0]) || '';
+      const catLabel = CATEGORY_LABELS[primaryCat] || '';
+      return `
+        <a class="featured-post" href="post.html?slug=${encodeURIComponent(post.slug)}">
+          <div class="img-wrap">
+            ${post.image
+              ? `<img src="${post.image}" alt="${escapeHtml(post.title)}" loading="lazy" />`
+              : `<div class="img-placeholder"></div>`
+            }
+          </div>
+          <div>
+            <div class="meta-top">
+              <span class="dot"></span>
+              Featured · ${escapeHtml(catLabel)}
+            </div>
+            <h2>${escapeHtml(post.title)}</h2>
+            <p class="excerpt">${escapeHtml(post.excerpt || '')}</p>
+            <div class="meta">${formatDate(post.date)} · ${escapeHtml(post.author || '정영일')}</div>
+            <div class="read-more">Continue Reading</div>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderCard(post, num) {
+      const primaryCat = (post.categories && post.categories[0]) || '';
+      const catLabel = CATEGORY_LABELS[primaryCat] || '';
+      const tagsHtml = (post.tags || []).slice(0, 2).map(t =>
+        `<span class="tag">#${escapeHtml(t)}</span>`
+      ).join('');
+      const paddedNum = String(num).padStart(2, '0');
+      return `
+        <a class="post-card" href="post.html?slug=${encodeURIComponent(post.slug)}">
+          <div class="img-wrap">
+            <div class="idx-num">№ ${paddedNum}</div>
+            ${post.image
+              ? `<img src="${post.image}" alt="${escapeHtml(post.title)}" loading="lazy" />`
+              : `<div class="img-placeholder"></div>`
+            }
+          </div>
+          <div class="lbl">${escapeHtml(catLabel)}</div>
+          <h3>${escapeHtml(post.title)}</h3>
+          <p class="ex">${escapeHtml(post.excerpt || '')}</p>
+          <div class="footer">
+            <span>${formatDate(post.date)}</span>
+            ${tagsHtml ? `<span class="tags">${tagsHtml}</span>` : ''}
+          </div>
+        </a>
+      `;
+    }
+
+    document.getElementById('category-filter').addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.cat;
+      applyFilters();
+    });
+
+    let searchTimer;
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        currentSearch = e.target.value;
+        applyFilters();
+      }, 200);
+    });
+
+    document.getElementById('load-more').addEventListener('click', () => {
+      renderPosts(false);
+    });
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      if (isNaN(d)) return dateStr;
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}.${m}.${day}`;
+    }
+
+    init();
+  </script>
+</body>
+</html>
