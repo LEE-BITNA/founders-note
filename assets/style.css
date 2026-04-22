@@ -1,5 +1,5 @@
 /* ============================================================
-   대표의 기록 — Founder's Note (v2, editorial redesign)
+   대표의 기록 — Founder's Note (v3, CSR 사이트 톤 반영)
 
    ⭐ 디자인을 바꾸고 싶으시면 아래 ":root" 섹션의 변수만 바꾸세요.
    그러면 사이트 전체에 바로 반영됩니다.
@@ -10,26 +10,26 @@
   --font-serif: 'Noto Serif KR', 'Times New Roman', serif;
   --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* ───── 색상 ───── */
-  --color-accent: #1a7a6e;
-  --color-ink: #111111;
-  --color-text: #2a2a2a;
-  --color-muted: #777777;
-  --color-faint: #aaaaaa;
-  --color-line: #e5e5e5;
-  --color-bg: #fafaf7;
-  --color-card-bg: #ffffff;
-  --color-dark-bar: #111111;
+  /* ───── 색상 (CSR 사이트 톤에 맞춰 네이비 계열) ───── */
+  --color-accent: #2d4a6e;        /* 포인트 컬러 (차분한 네이비) */
+  --color-ink: #1a2332;           /* 가장 진한 글자 (딥 네이비 블랙) */
+  --color-text: #333a44;          /* 본문 글자 */
+  --color-muted: #6b7380;         /* 흐린 글자 */
+  --color-faint: #a0a5ad;         /* 가장 흐린 글자 (날짜 등) */
+  --color-line: #dfe2e6;          /* 구분선 */
+  --color-bg: #f5f5f3;            /* 페이지 배경 (차분한 라이트 그레이) */
+  --color-card-bg: #ffffff;       /* 카드 배경 */
+  --color-dark-bar: #1e2a3a;      /* 상단 네이비 바 */
 
   /* ───── 글씨 크기 (px) ───── */
-  --size-h1-hero: 44px;
-  --size-h1-post: 38px;
-  --size-h2-featured: 32px;
-  --size-h3-card: 18px;
-  --size-body: 16.5px;
-  --size-excerpt: 13.5px;
-  --size-meta: 11.5px;
-  --size-label: 10.5px;
+  --size-h1-hero: 40px;           /* 메인 페이지 대문 제목 */
+  --size-h1-post: 34px;           /* 글 상세 페이지 제목 */
+  --size-h2-featured: 28px;       /* 피처드 글 제목 */
+  --size-h3-card: 17px;           /* 카드 제목 */
+  --size-body: 15.5px;            /* 본문 글자 */
+  --size-excerpt: 13px;           /* 요약 글자 */
+  --size-meta: 11.5px;            /* 날짜·메타 정보 */
+  --size-label: 10.5px;           /* 카테고리 라벨 */
 
   /* ───── 기타 ───── */
   --max-width: 1200px;
@@ -63,7 +63,7 @@ button { font-family: inherit; cursor: pointer; }
 .serif { font-family: var(--font-serif); letter-spacing: -0.015em; }
 
 /* ============================================================
-   Site Header
+   Site Header (네이비 다크 바)
    ============================================================ */
 .site-header {
   background: var(--color-dark-bar);
@@ -73,12 +73,12 @@ button { font-family: inherit; cursor: pointer; }
 .site-header-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 20px 40px;
+  padding: 22px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.site-brand { display: flex; align-items: baseline; gap: 12px; }
+.site-brand { display: flex; align-items: baseline; gap: 14px; }
 .site-brand .en {
   font-size: 10px;
   letter-spacing: 3px;
@@ -88,7 +88,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .site-brand .sep {
   display: inline-block;
-  width: 20px;
+  width: 22px;
   height: 1px;
   background: rgba(255,255,255,0.35);
 }
@@ -96,10 +96,11 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-serif);
   font-size: 15px;
   letter-spacing: 0.3px;
+  color: #fff;
 }
 .site-header .back {
   font-size: 11px;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.7);
   letter-spacing: 0.5px;
 }
 .site-header .back:hover { color: #fff; }
@@ -108,14 +109,14 @@ button { font-family: inherit; cursor: pointer; }
 .breadcrumb {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 12px 40px;
+  padding: 13px 40px;
   font-size: 11px;
   color: var(--color-faint);
   letter-spacing: 0.3px;
   background: #fff;
   border-bottom: 1px solid var(--color-line);
 }
-.breadcrumb .sep { margin: 0 8px; color: #ddd; }
+.breadcrumb .sep { margin: 0 8px; color: #d0d3d7; }
 .breadcrumb .current { color: var(--color-ink); }
 
 /* ============================================================
@@ -124,19 +125,19 @@ button { font-family: inherit; cursor: pointer; }
 .page-hero {
   background: #fff;
   border-bottom: 1px solid var(--color-line);
-  padding: 96px 40px 64px;
+  padding: 88px 40px 60px;
   text-align: center;
   position: relative;
 }
 .page-hero::before {
   content: '';
   position: absolute;
-  top: 72px; left: 50%; transform: translateX(-50%);
-  width: 32px; height: 1px;
+  top: 68px; left: 50%; transform: translateX(-50%);
+  width: 36px; height: 1px;
   background: var(--color-accent);
 }
 .page-hero .eyebrow {
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 4px;
   color: var(--color-accent);
   margin-bottom: 22px;
@@ -148,9 +149,9 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 500;
   font-size: var(--size-h1-hero);
   letter-spacing: -0.025em;
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--color-ink);
-  margin-bottom: 26px;
+  margin-bottom: 28px;
 }
 .page-hero h1 em {
   font-style: normal;
@@ -159,18 +160,18 @@ button { font-family: inherit; cursor: pointer; }
 }
 .page-hero .lede {
   font-family: var(--font-serif);
-  font-size: 15px;
+  font-size: 14.5px;
   color: var(--color-text);
-  line-height: 2;
-  max-width: 560px;
-  margin: 0 auto 28px;
+  line-height: 2.1;
+  max-width: 580px;
+  margin: 0 auto 32px;
 }
 .page-hero .author-line {
   display: inline-block;
-  min-width: 180px;
-  padding-top: 22px;
+  min-width: 200px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-line);
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--color-muted);
   letter-spacing: 0.4px;
 }
@@ -190,17 +191,17 @@ button { font-family: inherit; cursor: pointer; }
 .controls-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 30px 40px;
+  padding: 28px 40px;
 }
 .controls-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 .controls-count {
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--color-muted);
   letter-spacing: 0.4px;
 }
@@ -213,14 +214,14 @@ button { font-family: inherit; cursor: pointer; }
   border: none;
   border-bottom: 1px solid var(--color-line);
   background: transparent;
-  font-size: 13px;
+  font-size: 12.5px;
   font-family: inherit;
   color: var(--color-ink);
   transition: border-color 0.15s;
 }
 .search-wrap input:focus {
   outline: none;
-  border-bottom-color: var(--color-ink);
+  border-bottom-color: var(--color-accent);
 }
 .search-wrap svg {
   position: absolute;
@@ -234,11 +235,11 @@ button { font-family: inherit; cursor: pointer; }
   display: flex;
   flex-wrap: wrap;
   gap: 20px 28px;
-  padding-top: 22px;
+  padding-top: 20px;
   border-top: 1px dotted var(--color-line);
 }
 .filter-btn {
-  padding: 0 0 3px 0;
+  padding: 0 0 4px 0;
   background: none;
   border: none;
   font-size: 12.5px;
@@ -250,14 +251,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .filter-btn:hover { color: var(--color-ink); }
 .filter-btn.active {
-  color: var(--color-ink);
+  color: var(--color-accent);
   font-weight: 500;
 }
 .filter-btn.active::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: -1px;
-  height: 1px;
+  height: 1.5px;
   background: var(--color-accent);
 }
 .filter-btn .count {
@@ -288,7 +289,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .featured-post .img-wrap {
   aspect-ratio: 5/4;
-  background: #2a2a2a;
+  background: #2a3544;
   position: relative;
   overflow: hidden;
 }
@@ -300,7 +301,7 @@ button { font-family: inherit; cursor: pointer; }
   opacity: 0;
   transition: opacity 0.3s;
 }
-.featured-post:hover .img-wrap::after { opacity: 0.1; }
+.featured-post:hover .img-wrap::after { opacity: 0.12; }
 .featured-post .img-wrap img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -311,7 +312,7 @@ button { font-family: inherit; cursor: pointer; }
   width: 100%; height: 100%;
   background:
     repeating-linear-gradient(45deg, transparent 0 22px, rgba(255,255,255,0.03) 22px 23px),
-    linear-gradient(135deg, #333 0%, #111 100%);
+    linear-gradient(135deg, #3a4a5e 0%, #1e2a3a 100%);
 }
 .featured-post .meta-top {
   display: flex;
@@ -333,7 +334,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: var(--size-h2-featured);
-  line-height: 1.32;
+  line-height: 1.35;
   letter-spacing: -0.015em;
   color: var(--color-ink);
   margin-bottom: 20px;
@@ -341,9 +342,9 @@ button { font-family: inherit; cursor: pointer; }
 }
 .featured-post:hover h2 { color: var(--color-accent); }
 .featured-post .excerpt {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--color-muted);
-  line-height: 1.95;
+  line-height: 2;
   margin-bottom: 26px;
 }
 .featured-post .meta {
@@ -356,8 +357,8 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
   gap: 8px;
   font-size: 11px;
-  color: var(--color-ink);
-  letter-spacing: 1.5px;
+  color: var(--color-accent);
+  letter-spacing: 1.8px;
   text-transform: uppercase;
   margin-top: 22px;
   font-weight: 500;
@@ -408,7 +409,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-card:hover { transform: translateY(-3px); }
 .post-card .img-wrap {
   aspect-ratio: 4/3;
-  background: #ddd;
+  background: #d5d8dc;
   position: relative;
   overflow: hidden;
   margin-bottom: 18px;
@@ -421,7 +422,7 @@ button { font-family: inherit; cursor: pointer; }
   opacity: 0;
   transition: opacity 0.3s;
 }
-.post-card:hover .img-wrap::after { opacity: 0.1; }
+.post-card:hover .img-wrap::after { opacity: 0.12; }
 .post-card .img-wrap img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -430,7 +431,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-card:hover .img-wrap img { transform: scale(1.04); }
 .post-card .img-placeholder {
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, #d4d4d4 0%, #8a8a8a 100%);
+  background: linear-gradient(135deg, #c5ccd3 0%, #8a939d 100%);
 }
 .post-card .idx-num {
   position: absolute;
@@ -453,7 +454,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: var(--size-h3-card);
-  line-height: 1.42;
+  line-height: 1.45;
   letter-spacing: -0.012em;
   margin-bottom: 12px;
   color: var(--color-ink);
@@ -463,7 +464,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-card .ex {
   font-size: var(--size-excerpt);
   color: var(--color-muted);
-  line-height: 1.75;
+  line-height: 1.8;
   margin-bottom: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -523,8 +524,9 @@ button { font-family: inherit; cursor: pointer; }
   transition: all 0.2s;
 }
 .load-more:hover {
-  background: var(--color-ink);
+  background: var(--color-accent);
   color: #fff;
+  border-color: var(--color-accent);
 }
 
 /* ============================================================
@@ -550,7 +552,7 @@ button { font-family: inherit; cursor: pointer; }
   content: '←';
   transition: transform 0.2s;
 }
-.post-detail .back-top:hover { color: var(--color-ink); }
+.post-detail .back-top:hover { color: var(--color-accent); }
 .post-detail .back-top:hover::before { transform: translateX(-4px); }
 
 .post-detail .post-category {
@@ -577,7 +579,7 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--font-serif);
   font-weight: 500;
   font-size: var(--size-h1-post);
-  line-height: 1.32;
+  line-height: 1.35;
   letter-spacing: -0.025em;
   color: var(--color-ink);
   margin-bottom: 28px;
@@ -599,7 +601,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-detail .hero-img {
   margin: 0 -40px 56px;
   aspect-ratio: 16/9;
-  background: #2a2a2a;
+  background: #2a3544;
   overflow: hidden;
 }
 .post-detail .hero-img img {
@@ -608,14 +610,14 @@ button { font-family: inherit; cursor: pointer; }
 }
 .post-body {
   font-size: var(--size-body);
-  line-height: 2.05;
+  line-height: 2.1;
   color: var(--color-text);
 }
 .post-body > * + * { margin-top: 1.4em; }
 .post-body h2 {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: 24px;
+  font-size: 22px;
   letter-spacing: -0.015em;
   margin-top: 2.4em;
   margin-bottom: 0.6em;
@@ -624,7 +626,7 @@ button { font-family: inherit; cursor: pointer; }
 .post-body h3 {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: 19px;
+  font-size: 18px;
   margin-top: 2em;
   margin-bottom: 0.5em;
   color: var(--color-ink);
@@ -636,21 +638,21 @@ button { font-family: inherit; cursor: pointer; }
   margin: 2.2em 0;
   color: var(--color-muted);
   font-family: var(--font-serif);
-  font-size: 17px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.9;
   font-style: normal;
 }
 .post-body ul, .post-body ol { padding-left: 24px; }
 .post-body li { margin-bottom: 0.5em; }
 .post-body img { margin: 2em 0; border-radius: var(--radius); }
 .post-body a {
-  color: var(--color-ink);
+  color: var(--color-accent);
   border-bottom: 1px solid var(--color-accent);
   transition: color 0.15s;
 }
-.post-body a:hover { color: var(--color-accent); }
+.post-body a:hover { color: var(--color-ink); }
 .post-body code {
-  background: #f5f5f5;
+  background: #ebedef;
   padding: 2px 6px;
   border-radius: var(--radius);
   font-size: 0.92em;
@@ -750,9 +752,9 @@ button { font-family: inherit; cursor: pointer; }
    ============================================================ */
 @media (max-width: 960px) {
   :root {
-    --size-h1-hero: 34px;
-    --size-h1-post: 30px;
-    --size-h2-featured: 26px;
+    --size-h1-hero: 32px;
+    --size-h1-post: 28px;
+    --size-h2-featured: 24px;
   }
   .featured-post { grid-template-columns: 1fr; gap: 32px; }
   .posts-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
@@ -761,17 +763,17 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (max-width: 640px) {
   :root {
-    --size-h1-hero: 28px;
-    --size-h1-post: 26px;
-    --size-h2-featured: 22px;
-    --size-h3-card: 17px;
+    --size-h1-hero: 26px;
+    --size-h1-post: 24px;
+    --size-h2-featured: 20px;
+    --size-h3-card: 16px;
   }
   .site-header-inner, .breadcrumb, .page-hero, .controls-inner, .posts-section, .post-detail, .site-footer {
     padding-left: 20px;
     padding-right: 20px;
   }
-  .page-hero { padding-top: 60px; padding-bottom: 44px; }
-  .page-hero::before { top: 42px; }
+  .page-hero { padding-top: 56px; padding-bottom: 40px; }
+  .page-hero::before { top: 38px; }
   .controls-row { flex-direction: column; align-items: stretch; gap: 16px; }
   .search-wrap { width: 100%; }
   .filters { gap: 14px 20px; }
